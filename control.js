@@ -3,7 +3,11 @@ const telegram = require('./telegram');
 // const util = require('util');
 // const { exec } = util.promisify(require('child_process').exec);
 // const { spawn } = require( 'child_process' );
-const nrc = require('node-run-cmd');
+// const nrc = require('node-run-cmd');
+// const cmd = require('node-cmd');
+
+const exec = require('child_process').exec;
+let child;
 
 const get_temp = 'vcgencmd measure_temp';
 const get_hostname = 'hostname';
@@ -30,10 +34,29 @@ module.exports.getHostname = function(callback) {
 
 function runScript(text, callback) {
     console.log(text, callback);
-    nrc.run(text).then( (data) => {
-        console.log('nrc -> ', data);
-        callback(data);
+
+    child = exec(text, function (error, stdout, stderr) {
+        if (error) {
+            callback(error);
+        } else if (stderr) {
+            callback(stderr);
+        } else if (stdout) {
+            callback(stdout)
+        }
+
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+            console.log('exec error: ' + error);
+        }
     });
+
+    // cmd.get(text, callback);
+
+    /*nrc.run(text, {}).then( (data,q,w,e) => {
+        console.log('nrc -> ', data,q,w,e);
+        callback(data);
+    });*/
 }
 
 /* Проверка конфига и подстройка возможных параметров */

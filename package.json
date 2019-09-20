@@ -2,6 +2,7 @@
   "name": "Transmissberry",
   "version": "1.0.0",
   "dependencies": {
+    "node-cmd": "^3.0.0",
     "node-run-cmd": "^1.0.1",
     "node-telegram-bot-api": "^0.30.0",
     "request": "latest",
