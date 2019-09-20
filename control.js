@@ -11,6 +11,7 @@ let child;
 
 const get_temp = 'vcgencmd measure_temp';
 const get_hostname = 'hostname';
+const get_wake = 'sudo etherwake';
 // const get_temp = 'vcgencmd measure_temp';
 
 
@@ -26,6 +27,14 @@ module.exports.start = function() {
 
 module.exports.getTemperature = function(callback) {
     runScript(get_temp, callback);
+};
+
+module.exports.getWake = function(name, callback) {
+    if (!name || !config.macAdresses[name]) {
+        callback('Нет такого компьютера в настройках');
+    } else {
+        runScript(`${get_wake} ${name}`, callback);
+    }
 };
 
 module.exports.getHostname = function(callback) {

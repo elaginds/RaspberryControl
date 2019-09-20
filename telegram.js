@@ -71,8 +71,8 @@ module.exports.createTelegramBot = function(token) {
                 onHello();
             } else if (msg.text.indexOf('/hostname') === 0) {
                 control.getHostname(sendAnswer);
-            } else if (msg.text.indexOf('/magnet') === 0) {
-                onMagnet(msg.text.substr(8));
+            } else if (msg.text.indexOf('/wake') === 0) {
+                control.getWake(msg.text.substr(6), sendAnswer);
             } else if (msg.text.indexOf('/temp') === 0) {
                 control.getTemperature(sendAnswer);
             }
