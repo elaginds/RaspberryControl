@@ -5,7 +5,8 @@ const telegram = require('./telegram');
 // const { spawn } = require( 'child_process' );
 const nrc = require('node-run-cmd');
 
-const get_temp = 'hostname';
+const get_temp = 'vcgencmd measure_temp';
+const get_hostname = 'hostname';
 // const get_temp = 'vcgencmd measure_temp';
 
 
@@ -23,9 +24,13 @@ module.exports.getTemperature = function(callback) {
     runScript(get_temp, callback);
 };
 
+module.exports.getHostname = function(callback) {
+    runScript(get_hostname, callback);
+};
+
 function runScript(text, callback) {
     console.log(text, callback);
-    nrc.run(text, {}).then( (data) => {
+    nrc.run(text).then( (data) => {
         console.log('nrc -> ', data);
         callback(data);
     });

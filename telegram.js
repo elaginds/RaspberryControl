@@ -67,10 +67,8 @@ module.exports.createTelegramBot = function(token) {
 
             if (msg.text.indexOf('/hello') === 0) {
                 onHello();
-            } else if (msg.text.indexOf('/info') === 0) {
-                onInfo();
-            } else if (msg.text.indexOf('/check') === 0) {
-                onCheck();
+            } else if (msg.text.indexOf('/hostname') === 0) {
+                control.getHostname(sendAnswer);
             } else if (msg.text.indexOf('/magnet') === 0) {
                 onMagnet(msg.text.substr(8));
             } else if (msg.text.indexOf('/temp') === 0) {
