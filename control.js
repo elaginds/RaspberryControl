@@ -1,18 +1,11 @@
 let config = require('./config');
 const telegram = require('./telegram');
-// const util = require('util');
-// const { exec } = util.promisify(require('child_process').exec);
-// const { spawn } = require( 'child_process' );
-// const nrc = require('node-run-cmd');
-// const cmd = require('node-cmd');
-
 const exec = require('child_process').exec;
 let child;
 
 const get_temp = 'vcgencmd measure_temp';
 const get_hostname = 'hostname';
-const get_wake = 'sudo etherwake';
-// const get_temp = 'vcgencmd measure_temp';
+const get_wake = 'wakeonlan';
 
 
 module.exports.start = function() {
@@ -30,7 +23,7 @@ module.exports.getTemperature = function(callback) {
 };
 
 module.exports.getWake = function(name, callback) {
-    if (!name || !config.macAdresses[name]) {
+    if (!name || !config.macAdresses || !config.macAdresses[name]) {
         callback('Нет такого компьютера в настройках');
     } else {
         runScript(`${get_wake} ${config.macAdresses[name]}`, callback);
@@ -42,7 +35,7 @@ module.exports.getHostname = function(callback) {
 };
 
 function runScript(text, callback) {
-    console.log(text, callback);
+    console.log(text);
 
     child = exec(text, function (error, stdout, stderr) {
         if (error) {
@@ -59,13 +52,6 @@ function runScript(text, callback) {
             console.log('exec error: ' + error);
         }
     });
-
-    // cmd.get(text, callback);
-
-    /*nrc.run(text, {}).then( (data,q,w,e) => {
-        console.log('nrc -> ', data,q,w,e);
-        callback(data);
-    });*/
 }
 
 /* Проверка конфига и подстройка возможных параметров */
