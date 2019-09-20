@@ -33,7 +33,7 @@ module.exports.getWake = function(name, callback) {
     if (!name || !config.macAdresses[name]) {
         callback('Нет такого компьютера в настройках');
     } else {
-        runScript(`${get_wake} ${name}`, callback);
+        runScript(`${get_wake} ${config.macAdresses[name]}`, callback);
     }
 };
 
