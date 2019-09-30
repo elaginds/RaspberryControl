@@ -75,6 +75,8 @@ module.exports.createTelegramBot = function(token) {
                 control.getWake(msg.text.substr(6), sendAnswer);
             } else if (msg.text.indexOf('/temp') === 0) {
                 control.getTemperature(sendAnswer);
+            } else if (msg.text.indexOf('/mount') === 0) {
+                control.mount(sendAnswer);
             }
 
         });

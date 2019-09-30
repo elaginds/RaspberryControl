@@ -6,6 +6,8 @@ let child;
 const get_temp = 'vcgencmd measure_temp';
 const get_hostname = 'hostname';
 const get_wake = 'wakeonlan';
+const get_mount = 'sudo mount -a';
+const get_ls_mcleod = 'ls /home/pi/mcleod';
 
 
 module.exports.start = function() {
@@ -34,16 +36,26 @@ module.exports.getHostname = function(callback) {
     runScript(get_hostname, callback);
 };
 
+module.exports.mount = function(callback) {
+    runScript(get_mount);
+
+    setTimeout(() => {
+        runScript(get_ls_mcleod, callback);
+    }, 2000);
+};
+
 function runScript(text, callback) {
     console.log(text);
 
     child = exec(text, function (error, stdout, stderr) {
-        if (error) {
-            callback(error);
-        } else if (stderr) {
-            callback(stderr);
-        } else if (stdout) {
-            callback(stdout)
+        if (callback && typeof callback === 'function') {
+            if (error) {
+                callback(error);
+            } else if (stderr) {
+                callback(stderr);
+            } else if (stdout) {
+                callback(stdout)
+            }
         }
 
         console.log('stdout: ' + stdout);
